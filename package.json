@@ -1,0 +1,59 @@
+{
+  "name": "UPC",
+  "version": "1.0.0",
+  "description": "macOS helper application for controlling Keynote and PowerPoint presentations via Bitfocus Companion and UPC module",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --publish=never",
+    "build:mac-universal": "electron-builder --mac --universal"
+  },
+  "keywords": [
+    "presentation",
+    "keynote",
+    "powerpoint",
+    "companion",
+    "stream-deck",
+    "macos"
+  ],
+  "author": "Marcin Wardecki",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "dependencies": {
+    "ws": "^8.14.2",
+    "uuid": "^9.0.1",
+    "chokidar": "^3.5.3"
+  },
+  "build": {
+    "appId": "com.upc",
+    "productName": "UPC",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "scripts/**/*",
+      "node_modules/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["universal"]
+        }
+      ],
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
+    }
+  }
+}

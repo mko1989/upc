@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation Control Logs</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+        }
+        
+        .header {
+            background-color: #2d2d30;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007acc;
+        }
+        
+        .header h1 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 24px;
+        }
+        
+        .header p {
+            margin: 5px 0 0 0;
+            color: #cccccc;
+        }
+        
+        .log-container {
+            background-color: #252526;
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #3e3e42;
+        }
+        
+        .log-entry {
+            padding: 8px 12px;
+            border-left: 3px solid #007acc;
+            margin-bottom: 10px;
+            background-color: #2d2d30;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .log-entry.error {
+            border-left-color: #f14c4c;
+            background-color: #332222;
+        }
+        
+        .log-entry.warning {
+            border-left-color: #ffcc02;
+            background-color: #333322;
+        }
+        
+        .log-entry.info {
+            border-left-color: #007acc;
+            background-color: #2d2d30;
+        }
+        
+        .timestamp {
+            color: #858585;
+            font-size: 12px;
+        }
+        
+        .message {
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+        
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #007acc;
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        
+        .clear-btn {
+            background-color: #0e639c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        
+        .clear-btn:hover {
+            background-color: #1177bb;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Presentation Control System</h1>
+        <p>Real-time system logs and status information</p>
+    </div>
+    
+    <button class="clear-btn" onclick="clearLogs()">Clear Logs</button>
+    
+    <div class="log-container" id="logContainer">
+        <div class="log-entry info">
+            <div class="timestamp">System Started</div>
+            <div class="message">Presentation Control Helper initialized successfully</div>
+        </div>
+        <div class="log-entry info">
+            <div class="timestamp">WebSocket Server</div>
+            <div class="message">Server running on port 8765</div>
+        </div>
+        <div class="log-entry info">
+            <div class="timestamp">File Manager</div>
+            <div class="message">Ready to monitor presentation folders</div>
+        </div>
+    </div>
+    
+    <div class="status-bar">
+        <span id="statusText">System Ready • WebSocket: Active • Connections: 0</span>
+    </div>
+
+    <script>
+        function clearLogs() {
+            const container = document.getElementById('logContainer');
+            container.innerHTML = '<div class="log-entry info"><div class="timestamp">Logs Cleared</div><div class="message">Log history has been cleared</div></div>';
+        }
+
+        function addLog(type, message) {
+            const container = document.getElementById('logContainer');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            logEntry.innerHTML = `
+                <div class="timestamp">${timestamp}</div>
+                <div class="message">${message}</div>
+            `;
+            
+            container.appendChild(logEntry);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Simulate some log entries for demo
+        setTimeout(() => {
+            addLog('info', 'Keynote driver loaded and ready');
+        }, 1000);
+
+        setTimeout(() => {
+            addLog('info', 'PowerPoint driver loaded and ready');
+        }, 1500);
+
+        setTimeout(() => {
+            addLog('warning', 'No presentation folder selected yet');
+        }, 2000);
+
+        // Update status periodically
+        setInterval(() => {
+            const statusText = document.getElementById('statusText');
+            const now = new Date().toLocaleTimeString();
+            statusText.textContent = `System Ready • WebSocket: Active • Last Update: ${now}`;
+        }, 5000);
+    </script>
+</body>
+</html>
